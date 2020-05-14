@@ -2,7 +2,7 @@ import logging
 from multiprocessing import Value, Process, Manager
 import time
 
-import pantilthat as pth
+# import pantilthat as pth
 import signal
 import sys
 import numpy as np
@@ -32,8 +32,8 @@ def signal_handler(sig, frame):
     print("[INFO] You pressed `ctrl + c`! Exiting...")
 
     # disable the servos
-    pth.servo_enable(1, False)
-    pth.servo_enable(2, False)
+    # pth.servo_enable(1, False)
+    # pth.servo_enable(2, False)
 
     # exit
     sys.exit()
@@ -106,12 +106,12 @@ def set_servos(pan, tilt):
 
         # if the pan angle is within the range, pan
         if in_range(pan_angle, SERVO_MIN, SERVO_MAX):
-            pth.pan(pan_angle)
+            # pth.pan(pan_angle)
         else:
             logging.info(f'pan_angle not in range {pan_angle}')
 
         if in_range(tilt_angle, SERVO_MIN, SERVO_MAX):
-            pth.tilt(tilt_angle)
+            # pth.tilt(tilt_angle)
         else:
             logging.info(f'tilt_angle not in range {tilt_angle}')
 
@@ -139,8 +139,8 @@ def pantilt_process_manager(
     labels=('person',)
 ):
 
-    pth.servo_enable(1, True)
-    pth.servo_enable(2, True)
+    # pth.servo_enable(1, True)
+    # pth.servo_enable(2, True)
     with Manager() as manager:
         # set initial bounding box (x, y)-coordinates to center of frame
         center_x = manager.Value('i', 0)
@@ -150,42 +150,42 @@ def pantilt_process_manager(
         center_y.value = RESOLUTION[1] // 2
 
         # pan and tilt angles updated by independent PID processes
-        pan = manager.Value('i', 0)
-        tilt = manager.Value('i', 0)
+        # pan = manager.Value('i', 0)
+        # tilt = manager.Value('i', 0)
 
         # PID gains for panning
 
-        pan_p = manager.Value('f', 0.05)
-        # 0 time integral gain until inferencing is faster than ~50ms
-        pan_i = manager.Value('f', 0.1)
-        pan_d = manager.Value('f', 0)
+        # pan_p = manager.Value('f', 0.05)
+        # # 0 time integral gain until inferencing is faster than ~50ms
+        # pan_i = manager.Value('f', 0.1)
+        # pan_d = manager.Value('f', 0)
 
         # PID gains for tilting
-        tilt_p = manager.Value('f', 0.15)
-        # 0 time integral gain until inferencing is faster than ~50ms
-        tilt_i = manager.Value('f', 0.2)
-        tilt_d = manager.Value('f', 0)
+        # tilt_p = manager.Value('f', 0.15)
+        # # 0 time integral gain until inferencing is faster than ~50ms
+        # tilt_i = manager.Value('f', 0.2)
+        # tilt_d = manager.Value('f', 0)
 
         detect_processr = Process(target=run_detect,
                                   args=(center_x, center_y, labels, model_cls))
 
-        pan_process = Process(target=pid_process,
-                              args=(pan, pan_p, pan_i, pan_d, center_x, CENTER[0], 'pan'))
+        # pan_process = Process(target=pid_process,
+        #                       args=(pan, pan_p, pan_i, pan_d, center_x, CENTER[0], 'pan'))
 
-        tilt_process = Process(target=pid_process,
-                               args=(tilt, tilt_p, tilt_i, tilt_d, center_y, CENTER[1], 'tilt'))
+        # tilt_process = Process(target=pid_process,
+        #                        args=(tilt, tilt_p, tilt_i, tilt_d, center_y, CENTER[1], 'tilt'))
 
-        servo_process = Process(target=set_servos, args=(pan, tilt))
+        # servo_process = Process(target=set_servos, args=(pan, tilt))
 
         detect_processr.start()
-        pan_process.start()
-        tilt_process.start()
-        servo_process.start()
+        # pan_process.start()
+        # tilt_process.start()
+        # servo_process.start()
 
         detect_processr.join()
-        pan_process.join()
-        tilt_process.join()
-        servo_process.join()
+        # pan_process.join()
+        # tilt_process.join()
+        # servo_process.join()
 
 
 if __name__ == '__main__':

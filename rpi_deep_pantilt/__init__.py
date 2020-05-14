@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""Top-level package for Raspberry Pi Deep PanTilt."""
+"""Top-level package for Raspberry Pi Deep object detection no pantilt."""
 
-__author__ = """Leigh Johnson"""
-__email__ = 'hi@leighjohnson.me'
-__version__ = '1.1.0'
+__author__ = """cw"""
+__email__ = ''
+__version__ = '0.01'

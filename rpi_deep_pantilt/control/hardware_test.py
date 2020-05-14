@@ -2,7 +2,7 @@ import logging
 import math
 import time
 
-import pantilthat
+# import pantilthat
 from picamera import PiCamera
 
 
@@ -35,8 +35,8 @@ def pantilt_test():
         a = math.sin(t * 2) * 90
         # Cast a to int for v0.0.2
         a = int(a)
-        pantilthat.pan(a)
-        pantilthat.tilt(a)
+        # pantilthat.pan(a)
+        # pantilthat.tilt(a)
 
         # Sleep for a bit so we're not hammering the HAT with updates
         time.sleep(0.005)
